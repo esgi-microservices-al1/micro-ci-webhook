@@ -1,0 +1,35 @@
+name: ESGI Micro CI WebHook
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    name: Build Micro CI WebHook Project
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Project
+      uses: actions/checkout@v1
+
+    # Add your build steps here
+
+  # Uncomment Azure Deployment and replace {userName} by your account folder name
+  # deploy:
+  #   name: Deploy to Azure VM
+  #   runs-on: ubuntu-latest
+  #   if: github.ref == 'refs/heads/master'
+
+  #   steps:
+  #   - name: Checkout Project
+  #     uses: actions/checkout@v1
+
+  #   - name: Azure Login
+  #     uses: azure/login@v1
+  #     with:
+  #       creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+  #   - name: Azure CLI script
+  #     uses: azure/CLI@v1
+  #     with:
+  #       inlineScript: |
+  #         az vm run-command invoke -g micro-ci-grp -n micro-ci --command-id RunShellScript --scripts "cd /home/{userName} && wget -q https://raw.githubusercontent.com/esgi-microservices-al1/micro-ci-webhook/master/.github/azure/docker-compose.yml -O docker-compose.yml && docker-compose stop && docker-compose rm && docker-compose up -d"
