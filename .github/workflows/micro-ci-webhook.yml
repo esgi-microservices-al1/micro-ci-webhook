@@ -13,15 +13,23 @@ jobs:
 
     # Add your build steps here
 
-  # Uncomment Azure Deployment and replace {userName} by your account folder name
+  # Uncomment and replace {userName} by your account folder name
   # deploy:
-  #   name: Deploy to Azure VM
+  #   name: Build/Publish Docker Images to DockerHub & Deploy to Azure VM
   #   runs-on: ubuntu-latest
   #   if: github.ref == 'refs/heads/master'
 
   #   steps:
   #   - name: Checkout Project
   #     uses: actions/checkout@v1
+
+  #   - name: Build & Publish Docker Image
+  #     uses: docker/build-push-action@v1
+  #     with:
+  #       username: ${{ secrets.DOCKER_USERNAME }}
+  #       password: ${{ secrets.DOCKER_PASSWORD }}
+  #       repository: micro-ci-al1/micro-ci-webhook
+  #       tag_with_ref: true
 
   #   - name: Azure Login
   #     uses: azure/login@v1
@@ -32,4 +40,4 @@ jobs:
   #     uses: azure/CLI@v1
   #     with:
   #       inlineScript: |
-  #         az vm run-command invoke -g micro-ci-grp -n micro-ci --command-id RunShellScript --scripts "cd /home/{userName} && wget -q https://raw.githubusercontent.com/esgi-microservices-al1/micro-ci-webhook/master/.github/azure/docker-compose.yml -O docker-compose.yml && docker-compose stop && docker-compose rm && docker-compose up -d"
+  #         az vm run-command invoke -g ${{ secrets.AZURE_RESOURCE_GRP }} -n ${{ secrets.AZURE_VM }} --command-id RunShellScript --scripts "cd /home/{userName} && wget -q https://raw.githubusercontent.com/esgi-microservices-al1/micro-ci-webhook/master/.github/azure/docker-compose.yml -O docker-compose.yml && docker-compose stop && docker-compose rm && docker-compose up -d"
