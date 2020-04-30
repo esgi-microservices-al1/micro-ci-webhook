@@ -1,0 +1,34 @@
+{
+    paths: {
+      '/commit': {
+        post: {
+          tags: ['GIT Commit'],
+          description: 'Post a commit',
+          operationId: 'commit',
+          parameters: [],
+          requestBody: {
+            content: {
+              'application/json': {
+              }
+            },
+            required: true
+          },
+          responses: {
+            '200': {
+              description: 'Sucessful commit'
+            },
+            '400': {
+              description: 'Unsucessful commit',
+              content: {
+                'application/json': {
+                  schema: {
+                    $ref: '#/components/schemas/Error'
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+  };
