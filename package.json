@@ -19,6 +19,7 @@
   "homepage": "https://github.com/esgi-microservices-al1/micro-ci-webhook#readme",
   "dependencies": {
     "express": "^4.17.1",
+    "flat": "^5.0.0",
     "swagger-jsdoc": "^4.0.0",
     "swagger-ui-express": "^4.1.4"
   }
