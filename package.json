@@ -5,7 +5,9 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node server.js",
+    "publish": "node MessageBroker/publisher.js",
+    "consume": "node MessageBroker/consumer.js"
   },
   "repository": {
     "type": "git",
@@ -18,6 +20,7 @@
   },
   "homepage": "https://github.com/esgi-microservices-al1/micro-ci-webhook#readme",
   "dependencies": {
+    "amqplib": "^0.5.5",
     "express": "^4.17.1",
     "flat": "^5.0.0",
     "swagger-jsdoc": "^4.0.0",
