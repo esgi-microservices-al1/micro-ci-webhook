@@ -1,34 +1,36 @@
 {
-    paths: {
-      '/commit': {
-        post: {
-          tags: ['GIT Commit'],
-          description: 'Post a commit',
-          operationId: 'commit',
-          parameters: [],
-          requestBody: {
-            content: {
-              'application/json': {
-              }
-            },
-            required: true
-          },
-          responses: {
-            '200': {
-              description: 'Sucessful commit'
-            },
-            '400': {
-              description: 'Unsucessful commit',
-              content: {
-                'application/json': {
-                  schema: {
-                    $ref: '#/components/schemas/Error'
-                  }
-                }
-              }
-            }
+  "swagger": "2.0",
+  "info": {
+      "title": "Blah",
+      "description": "",
+      "version": "1.0"
+  },
+  "produces": ["application/json"],
+  "basePath": "/",
+  "tags" : [
+    {"name": "Tag1", 
+    "description": "API for webhook"
+    }
+  ],
+  "paths": {
+      "/": {
+          "post": {
+              "x-swagger-router-controller": "home",
+              "operationId": "index",
+              "tags": ["/"],
+              "description": "Commit a git change for git hub, gitlab, bitbucket",
+              "parameters": [],
+              "responses": [{
+                  "code": 200,
+                  "message" : "Sucessful commit"
+              },{
+                  "code":400,
+                  "message" : "Invalid commit"
+              }, {
+                  "code":404,
+                  "message" : "Forbidden commit"
+              }]
           }
-        }
       }
-    },
-  };
+  }
+}
