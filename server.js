@@ -1,4 +1,5 @@
 const express = require('express');
+var router = express.Router();
 const flatten = require('flat')
 const secret = "blabla";
 const repo = "https://github.com/Marcohiro/testCI";
@@ -7,36 +8,6 @@ const crypto = require('crypto');
 const exec = require('child_process').exec;
 const app = express();
 
-const swaggerDocument = {
-    "swagger": "2.0",
-    "info": {
-        "title": "Blah",
-        "description": "",
-        "version": "1.0"
-    },
-    "produces": ["application/json"],
-    "paths": {
-        "/": {
-            "post": {
-                "x-swagger-router-controller": "home",
-                "operationId": "index",
-                "tags": ["/"],
-                "description": "Commit a git change for git hub, gitlab, bitbucket",
-                "parameters": [],
-                "responses": [{
-                    "code": 200,
-                    "message" : "Sucessful commit"
-                },{
-                    "code":400,
-                    "message" : "Invalid commit"
-                }, {
-                    "code":404,
-                    "message" : "Forbidden commit"
-                }]
-            }
-        }
-    }
-};
 
 app.post("/", function(req, res){
     req.on('data', function(chunk) {
@@ -64,4 +35,10 @@ app.post("/", function(req, res){
     res.end();
 }); 
 
+
+var swaggerUi = require('swagger-ui-express'),
+    swaggerDocument = require('./swagger.json');
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use('/api/v1', router);
 app.listen(8082, () => console.log("Service listening on port 8082")); 
