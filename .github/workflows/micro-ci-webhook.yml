@@ -12,10 +12,13 @@ jobs:
         node-version: [8.x, 10.x, 12.x]
 
     steps:
+
+    - uses: actions/checkout@v1
     - name: Checkout Project
       uses: actions/checkout@v1
 
     # Add your build steps here
+
     - with:
         node-version: ${{ matrix.node-version }}
     - name: npm install
