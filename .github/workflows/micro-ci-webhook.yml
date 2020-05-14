@@ -7,12 +7,22 @@ jobs:
     name: Build Micro CI WebHook Project
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        node-version: [8.x, 10.x, 12.x]
+
     steps:
     - name: Checkout Project
       uses: actions/checkout@v1
 
     # Add your build steps here
-
+    - with:
+        node-version: ${{ matrix.node-version }}
+    - name: npm install
+      run:
+        npm install
+      env:
+        CI: true
   # Uncomment and replace {userName} by your account folder name
   # deploy:
   #   name: Build/Publish Docker Images to DockerHub & Deploy to Azure VM
