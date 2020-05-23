@@ -3,6 +3,7 @@ var router = express.Router();
 const flatten = require('flat')
 const secret = "blabla";
 
+
 const crypto = require('crypto');
 const exec = require('child_process').exec;
 const app = express();
@@ -36,15 +37,18 @@ app.get("/queue", function(req, res){
 app.post("/", function(req, res){
     req.on('data', function(chunk) {
         let sig = "sha1=" + crypto.createHmac('sha1', secret).update(chunk.toString()).digest('hex');
-        var jsonobj = flatten(JSON.parse(chunk));
         var jsonobj2 = JSON.parse(chunk);
-        console.log(jsonobj);
         switch(getType(chunk.toString())){
             case repoType.GITHUB:
-                var arggithub = ["repository.id", "repository.name", "repository.full_name", "repository.updated_at",
-                "commits.0.id", "commits.0.message", "commits.0.author.email", "commits.0.author.username", "commits.0.added", "commits.0.removed", "commits.0.modified.0"
-                ];  
-                var res = getData(jsonobj, arggithub);
+                delete jsonobj2.repository.node_id;
+                delete jsonobj2.repository.private;
+                delete jsonobj2.repository.owner;
+                // console.log(jsonobj2);
+                var res = jsonobj2;
+                // var arggithub = ["repository.id", "repository.name", "repository.full_name", "repository.updated_at",
+                // "commits.0.id", "commits.0.message", "commits.0.author.email", "commits.0.author.username", "commits.0.added", "commits.0.removed", "commits.0.modified.0"
+                // ];  
+                // var res = getData(jsonobj, arggithub);
                 break;
             case repoType.BITBUCKET:
                 var arggithub = ["repository.project.uuid", "repository.name", "repository.full_name", "push.changes.0.new.target.date",
@@ -58,9 +62,6 @@ app.post("/", function(req, res){
                 //"commits.0.added", "commits.0.removed", "commits.0.modified"
                 var res = getData(jsonobj, arggithub);
                 break;
-        }
-        if (req.headers['x-hub-signature'] == sig) {
-            exec('cd ' + repo + ' && git pull');
         }
         console.log(res);
     });
