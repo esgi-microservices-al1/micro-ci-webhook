@@ -1,6 +1,6 @@
 const stompit = require('stompit')
 
-stompit.connect({ host: 'localhost', port: 61613 }, (err, client) => {
+stompit.connect({ host: '172.19.0.2', port: 61613 }, (err, client) => {
     frame = client.send({ destination: 'WEBHOOK_QUEUE' })
 
     jsonSample = 
