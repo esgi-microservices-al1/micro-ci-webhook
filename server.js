@@ -2,8 +2,7 @@ const express = require('express');
 var router = express.Router();
 const flatten = require('flat')
 const secret = "blabla";
-//const repo = "https://github.com/Marcohiro/testCI";
-const repo = "https://gitlab.com/Marcohiro/testmicroservice";
+
 
 const crypto = require('crypto');
 const exec = require('child_process').exec;
@@ -63,9 +62,6 @@ app.post("/", function(req, res){
                 //"commits.0.added", "commits.0.removed", "commits.0.modified"
                 var res = getData(jsonobj, arggithub);
                 break;
-        }
-        if (req.headers['x-hub-signature'] == sig) {
-            exec('cd ' + repo + ' && git pull');
         }
         console.log(res);
     });
