@@ -2,9 +2,7 @@
 
 
 **MessageBroker**
-This is an example of usage of RabbitMQ as a message broker between publisher and consumers using nodejs and amqplib with amqp protocol
+The MessageBroker folder contains three examples of use for two messagebrokers activemq and rabbitmq.
+After understanding the concepts and trying both we chose to use activemq with nodejs for the advantages specified on our rapport (myGes).
 
-The RabbitMQ server is run on docker and interfaces through port 5672 
-commands to spin rabbitmq server on docker
-
-docker run --name rabbitmq -p 5672:5672 -d rabbitmq
+The current messagebroker (activemq) is injected inside the node server.js in order send the json object that contains commit details to a queue called "WEBHOOK_QUEUE", the activemq instance is running inside a docker-compose container created from the image rmohr/activemq:5.10.0  
