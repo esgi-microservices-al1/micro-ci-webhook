@@ -2,8 +2,6 @@ const express = require('express');
 var router = express.Router();
 const flatten = require('flat')
 const secret = "blabla";
-//const repo = "https://github.com/Marcohiro/testCI";
-const repo = "https://gitlab.com/Marcohiro/testmicroservice";
 
 const crypto = require('crypto');
 const exec = require('child_process').exec;
