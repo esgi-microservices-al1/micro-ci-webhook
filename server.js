@@ -1,8 +1,9 @@
 const express = require('express');
 var router = express.Router();
-const flatten = require('flat')
+const stompit = require('stompit');
+const flatten = require('flat');
 const secret = "blabla";
-
+const dockerContainerIP = "172.19.0.2";
 
 const crypto = require('crypto');
 const exec = require('child_process').exec;
@@ -45,6 +46,16 @@ app.post("/", function(req, res){
                 delete jsonobj2.repository.owner;
                 // console.log(jsonobj2);
                 var res = jsonobj2;
+
+                stompit.connect({ host: dockerContainerIP, port: 61613 }, (err, client) => {
+                    frame = client.send({ destination: 'WEBHOOK_QUEUE' })
+                    frame.write(Buffer.from(JSON.stringify(res)))
+                
+                    frame.end()
+                
+                    client.disconnect()
+                })
+
                 // var arggithub = ["repository.id", "repository.name", "repository.full_name", "repository.updated_at",
                 // "commits.0.id", "commits.0.message", "commits.0.author.email", "commits.0.author.username", "commits.0.added", "commits.0.removed", "commits.0.modified.0"
                 // ];  
