@@ -22,13 +22,6 @@ function getType(chunk){
     if(chunk.includes("bitbucket")) return repoType.BITBUCKET;
 }
 
-function getData(jsonobj, arg){
-    var res = arg.map(function(value){
-        return jsonobj[value];
-    });
-    return res;
-}
-
 app.get("/queue", function(req, res){
     res.writeHead(200, {'Content-Type' : 'text plain'});
     res.write('Work in progress');
@@ -38,40 +31,34 @@ app.get("/queue", function(req, res){
 app.post("/", function(req, res){
     req.on('data', function(chunk) {
         let sig = "sha1=" + crypto.createHmac('sha1', secret).update(chunk.toString()).digest('hex');
-        var jsonobj2 = JSON.parse(chunk);
+
+        var jsonobj = JSON.parse(chunk);
         switch(getType(chunk.toString())){
             case repoType.GITHUB:
-                delete jsonobj2.repository.node_id;
-                delete jsonobj2.repository.private;
-                delete jsonobj2.repository.owner;
-                // console.log(jsonobj2);
-                var res = jsonobj2;
-
-                stompit.connect({ host: dockerContainerIP, port: 61613 }, (err, client) => {
-                    frame = client.send({ destination: 'WEBHOOK_QUEUE' })
-                    frame.write(Buffer.from(JSON.stringify(res)))
-                
-                    frame.end()
-                
-                    client.disconnect()
-                })
-
-                // var arggithub = ["repository.id", "repository.name", "repository.full_name", "repository.updated_at",
-                // "commits.0.id", "commits.0.message", "commits.0.author.email", "commits.0.author.username", "commits.0.added", "commits.0.removed", "commits.0.modified.0"
-                // ];  
-                // var res = getData(jsonobj, arggithub);
+                const arggithub = ['ref', 'before', 'after', 'pusher', 'sender', 'created', 'deleted', 'forced', 'base_ref', 'compare', 'commits'];
+                const repository = ['node_id', 'full_name', 'private', 'owner', 'html_url', 'description', 'fork', 'url', 'forks_url', 'keys_url', 
+                'collaborators_url', 'teams_url', 'hooks_url', 'issue_events_url',
+                'events_url', 'assignees_url', 'branches_url', 'tags_url', 'blobs_url', 'git_tags_url', 'git_refs_url', 'trees_url', 'statuses_url', 'languages_url', 'stargazers_url',
+                'contributors_url', 'subscribers_url', 'subscription_url', 'commits_url',
+                'git_commits_url', 'comments_url', 'issue_comment_url', 'contents_url',
+                'compare_url', 'merges_url', 'archive_url', 'downloads_url', 'issues_url', 'pulls_url',
+                'milestones_url', 'notifications_url', 'labels_url', 'releases_url',
+                'deployments_url', 'created_at', 'updated_at', 'pushed_at', 'git_url',
+                'ssh_url', 'clone_url', 'svn_url', 'homepage', 'size', 'stargazers_count'  ,
+                'watchers_count', 'language', 'has_issues'  ,'has_projects'  ,'has_downloads'  ,'has_wiki'  ,'has_pages'  ,'forks_count'  ,'mirror_url'  ,'archived'  ,'disabled'  ,'open_issues_count'  ,'license'  ,'forks'  ,'open_issues'  ,'watchers'  ,'default_branch'  ,'stargazers'  ,'master_branch'];
+                const headcommits = ['tree_id', 'distinct', 'url', 'committer'];
+                arggithub.forEach(x => delete jsonobj[x]);
+                repository.forEach(x => delete jsonobj['repository'][x]);
+                headcommits.forEach(x => delete jsonobj['head_commit'][x]);
+                var res = jsonobj;
                 break;
+
             case repoType.BITBUCKET:
-                var arggithub = ["repository.project.uuid", "repository.name", "repository.full_name", "push.changes.0.new.target.date",
-                "push.changes.0.commits.0.hash", "push.changes.0.commits.0.summary.raw", "push.changes.0.new.target.author.user.nickname"
-                ]; 
-                var res = getData(jsonobj, arggithub);
+    
                 break;
+
             case repoType.GITLAB:
-                var arggithub = ["project.id", "repository.name", "commits.0.timestamp", "commits.0.id", "commits.0.message", "commits.0.author.name", "commits.0.author.email", "commits.0.author.name" ]; 
-                console.log(jsonobj2["project"]["id"]);
-                //"commits.0.added", "commits.0.removed", "commits.0.modified"
-                var res = getData(jsonobj, arggithub);
+
                 break;
         }
         console.log(res);
@@ -80,7 +67,6 @@ app.post("/", function(req, res){
     res.write('Sucessful commit');
     res.end();
 }); 
-
 
 var swaggerUi = require('swagger-ui-express'),
     swaggerDocument = require('./swagger.json');
