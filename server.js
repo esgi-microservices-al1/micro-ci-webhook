@@ -51,6 +51,15 @@ app.post("/", function(req, res){
                 repository.forEach(x => delete jsonobj['repository'][x]);
                 headcommits.forEach(x => delete jsonobj['head_commit'][x]);
                 var res = jsonobj;
+                
+                stompit.connect({ host: dockerContainerIP, port: 61613 }, (err, client) => {
+                    frame = client.send({ destination: 'WEBHOOK_QUEUE' })
+                    frame.write(Buffer.from(JSON.stringify(res)))
+                
+                    frame.end()
+                
+                    client.disconnect()
+                })
                 break;
 
             case repoType.BITBUCKET:
