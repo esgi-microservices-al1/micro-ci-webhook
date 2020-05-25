@@ -1,7 +1,9 @@
 const express = require('express');
 var router = express.Router();
-const flatten = require('flat')
+const stompit = require('stompit');
+const flatten = require('flat');
 const secret = "blabla";
+const dockerContainerIP = "172.19.0.2";
 
 const crypto = require('crypto');
 const exec = require('child_process').exec;
@@ -29,6 +31,7 @@ app.get("/queue", function(req, res){
 app.post("/", function(req, res){
     req.on('data', function(chunk) {
         let sig = "sha1=" + crypto.createHmac('sha1', secret).update(chunk.toString()).digest('hex');
+
         var jsonobj = JSON.parse(chunk);
         switch(getType(chunk.toString())){
             case repoType.GITHUB:
@@ -57,7 +60,6 @@ app.post("/", function(req, res){
             case repoType.GITLAB:
 
                 break;
-
         }
         console.log(res);
     });
