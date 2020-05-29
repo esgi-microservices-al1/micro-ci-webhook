@@ -27,7 +27,7 @@ jobs:
         CI: true
         #add test steps 
   # Uncomment and replace {userName} by your account folder name
-   deploy:
+  deploy:
      name: Build/Publish Docker Images to DockerHub & Deploy to Azure VM
      runs-on: ubuntu-latest
      if: github.ref == 'refs/heads/master'
