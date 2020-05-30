@@ -1,12 +1,11 @@
 const express = require('express');
 var router = express.Router();
-const stompit = require('stompit');
 const secret = "blabla";
-const dockerContainerIP = "172.19.0.2";
 const parser = require('./modules/parser');
 const crypto = require('crypto');
-var constants = require('./constants/constants');
 const app = express();
+const connect = require('./RabbitMQ/publisher');
+
 
 app.get("/queue", function (req, res) {
     res.writeHead(200, { 'Content-Type': 'text plain' });
@@ -15,17 +14,14 @@ app.get("/queue", function (req, res) {
 });
 
 app.post("/", function (req, res) {
+    
     req.on('data', function (chunk) {
         let sig = "sha1=" + crypto.createHmac('sha1', secret).update(chunk.toString()).digest('hex');
         var res = parser.cleanJSONObject(chunk);
         console.log(res);
-        stompit.connect({ host: dockerContainerIP, port: 61613 }, (err, client) => {
-            frame = client.send({ destination: 'WEBHOOK_QUEUE' })
-            frame.write(Buffer.from(JSON.stringify(res)))
-            frame.end()
-            client.disconnect()
-        })
+        connect.connect(res);
     });
+    
     res.writeHead(200, { 'Content-Type': 'text plain' });
     res.write('Sucessful commit');
     res.end();

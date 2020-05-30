@@ -95,7 +95,6 @@ function isArray(jsonObj, arg) {
 
 function removeArrays(jsonObj, arrayArgs, stringArgs) {
     for (let i = 0; i < arrayArgs.length; i++) {
-        console.log(stringArgs[i]);
         removeProperties(jsonObj, arrayArgs[i], stringArgs[i]);
     }
 }
