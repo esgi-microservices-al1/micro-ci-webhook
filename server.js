@@ -19,12 +19,6 @@ app.post("/", function (req, res) {
         let sig = "sha1=" + crypto.createHmac('sha1', secret).update(chunk.toString()).digest('hex');
         var res = parser.cleanJSONObject(chunk);
         console.log(res);
-        stompit.connect({ host: dockerContainerIP, port: 61613 }, (err, client) => {
-            frame = client.send({ destination: 'WEBHOOK_QUEUE' })
-            frame.write(Buffer.from(JSON.stringify(res)))
-            frame.end()
-            client.disconnect()
-        })
     });
     res.writeHead(200, { 'Content-Type': 'text plain' });
     res.write('Sucessful commit');
