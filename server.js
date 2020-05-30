@@ -20,6 +20,7 @@ app.post("/", function (req, res) {
         var res = parser.cleanJSONObject(chunk);
         console.log(res);
         connect.connect(res);
+
     });
     
     res.writeHead(200, { 'Content-Type': 'text plain' });
