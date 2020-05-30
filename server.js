@@ -18,8 +18,8 @@ app.post("/", function (req, res) {
     req.on('data', function (chunk) {
         let sig = "sha1=" + crypto.createHmac('sha1', secret).update(chunk.toString()).digest('hex');
         var res = parser.cleanJSONObject(chunk);
-        console.log(res);
         connect.connect(res);
+        console.log(res);
 
     });
     
