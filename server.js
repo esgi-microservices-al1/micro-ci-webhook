@@ -1,11 +1,8 @@
 const express = require('express');
 var router = express.Router();
-const secret = "blabla";
-const parser = require('./modules/parser');
-const crypto = require('crypto');
+const parser = require('./modules/chunkParser');
 const app = express();
-const connect = require('./RabbitMQ/publisher');
-
+const connect = require('.RabbitMQ/publisher');
 
 app.get("/queue", function (req, res) {
     res.writeHead(200, { 'Content-Type': 'text plain' });
@@ -14,15 +11,11 @@ app.get("/queue", function (req, res) {
 });
 
 app.post("/", function (req, res) {
-    
     req.on('data', function (chunk) {
-        let sig = "sha1=" + crypto.createHmac('sha1', secret).update(chunk.toString()).digest('hex');
         var res = parser.cleanJSONObject(chunk);
         connect.connect(res);
         console.log(res);
-
     });
-    
     res.writeHead(200, { 'Content-Type': 'text plain' });
     res.write('Sucessful commit');
     res.end();

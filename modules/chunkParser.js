@@ -1,5 +1,6 @@
 const type = require('./repoType');
 const constants = require('../constants/constants');
+const responseParser = require('./responseParser');
 
 function removeProperties(jsonObj, arrayArg, stringArg) {
     if (stringArg.length == 0) {
@@ -99,24 +100,24 @@ function removeArrays(jsonObj, arrayArgs, stringArgs) {
     }
 }
 
-var cleanJSONObject = function (chunk) {
+const cleanJSONObject = function (chunk) {
     switch (type.getType(chunk.toString())) {
         case type.repoType.GITHUB:
-            var jsonobj = JSON.parse(chunk.toString());
-            removeArrays(jsonobj, constants.githubCleanArrays, constants.githubCleanStrings);
-            return jsonobj;
+            const githubRes = JSON.parse(chunk.toString());
+            removeArrays(githubRes, constants.githubCleanArrays, constants.githubCleanStrings);
+            return responseParser.responseParserGitHub(githubRes);
 
         case type.repoType.BITBUCKET:
-            var jsonobj = JSON.parse(chunk.toString());
-            console.log(jsonobj['push']['changes'])
+            const jsonobj = JSON.parse(chunk.toString());
+            //console.log(jsonobj['push']['changes'])
             removeArrays(jsonobj, constants.bitbucketCleanArrays, constants.bitbucketCleanStrings);
             var res = new Object();
             return jsonobj;
 
         case type.repoType.GITLAB:
-            var jsonobj = JSON.parse(chunk.toString());
-            removeArrays(jsonobj, constants.gitlabCleanArrays, constants.gitlabCleanStrings);
-            return jsonobj;
+            const gitlabRes = JSON.parse(chunk.toString());
+            removeArrays(gitlabRes, constants.gitlabCleanArrays, constants.gitlabCleanStrings);
+            return responseParser.responseParserGitLab(gitlabRes);
     }
 }
 
