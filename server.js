@@ -2,7 +2,7 @@ const express = require('express');
 var router = express.Router();
 const parser = require('./modules/chunkParser');
 const app = express();
-const connect = require('.RabbitMQ/publisher');
+const connect = require('./RabbitMQ/publisher');
 
 app.get("/queue", function (req, res) {
     res.writeHead(200, { 'Content-Type': 'text plain' });
