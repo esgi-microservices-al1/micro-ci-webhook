@@ -5,7 +5,6 @@ const secret = "blabla";
 const dockerContainerIP = "172.19.0.2";
 const parser = require('./modules/parser');
 const crypto = require('crypto');
-var constants = require('./constants/constants');
 const app = express();
 
 app.get("/queue", function (req, res) {
