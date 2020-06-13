@@ -14,7 +14,7 @@ app.post("/", function (req, res) {
     req.on('data', function (chunk) {
         var res = parser.cleanJSONObject(chunk);
         connect.connect(res);
-        console.log(res);
+        console.log(JSON.stringify(res));
     });
     res.writeHead(200, { 'Content-Type': 'text plain' });
     res.write('Sucessful commit');
