@@ -1,7 +1,7 @@
 const type = require('./repoType');
 const responseParser = require('./responseParser');
 
-const cleanJSONObject = function (chunk) {
+const cleanJSONObject = async function (chunk) {
     switch (type.getType(chunk.toString())) {
         case type.repoType.GITHUB:
             const githubRes = JSON.parse(chunk.toString());
@@ -9,7 +9,7 @@ const cleanJSONObject = function (chunk) {
 
         case type.repoType.BITBUCKET:
             const jsonobj = JSON.parse(chunk.toString());
-            return jsonobj;
+            return responseParser.responseParserBitBucket(jsonobj);
 
         case type.repoType.GITLAB:
             const gitlabRes = JSON.parse(chunk.toString());
