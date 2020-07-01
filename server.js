@@ -1,8 +1,21 @@
 const express = require('express');
 var router = express.Router();
-const parser = require('./modules/chunkParser');
 const app = express();
+
+const parser = require('./modules/chunkParser');
 const connect = require('./RabbitMQ/publisher');
+const consul = require('./Consul/consulRegister')
+
+consul.registerCurrentService({
+    name: 'Microservice-Webhook',
+    address: '-',
+    port: 3000,
+    check: {
+        http: 'http://-:3000/health',
+        interval: '10s',
+        timeout: '5s',
+    }
+});
 
 app.get("/queue", function (req, res) {
     res.writeHead(200, { 'Content-Type': 'text plain' });
