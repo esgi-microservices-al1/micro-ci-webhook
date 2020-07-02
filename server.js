@@ -9,7 +9,6 @@ const consul = require('./Consul/consul');
 
 consul.register();
 
-
 app.get("/queue", function (req, res) {
     res.writeHead(200, { 'Content-Type': 'text plain' });
     res.write('Work in progress');
