@@ -1,11 +1,14 @@
-const { port } = require('consul');
+//const { port } = require('consul');
 
 // const consul = require('consul')();
-let consul = require('consul')({
-    host: "",
-    port: process.env.PORT,
-});
+const dotenv = require('dotenv').config();
 
+const PORT_INT = Number(process.env.PORT);
+
+let consul = require('consul')({
+    host: process.env.HOST,
+    port: PORT_INT,
+});
 
 var uuid = require('uuid');
 var serviceId = `micro-webhook-${uuid.v4()}`
@@ -14,7 +17,7 @@ let details = {
     name: "micro-webhook",
     address : process.env.HOST,
     // address : "127.0.0.1",
-    port: process.env.PORT,
+    port: PORT_INT,
     // port: 8300,
     id : serviceId,
     check: {
@@ -40,7 +43,8 @@ let details = {
 //     })
 // };
 
-var register = function (){consul.agent.service.register(details, err => {
+var register = function (){
+    consul.agent.service.register(details, err => {
         if(err)
             console.log(err.message, err.stack);
         else
@@ -49,7 +53,7 @@ var register = function (){consul.agent.service.register(details, err => {
 };
 
 var healthcheck = function(serviceId){
-    let idJson ={id: `service:${serviceId}`, token: ''};
+    let idJson = {id: `service:${serviceId}`, token: process.env.TOKEN};
 
     setInterval(() => {
         consul.agent.check.pass(idJson, (err) => {

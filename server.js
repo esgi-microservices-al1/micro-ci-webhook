@@ -1,13 +1,14 @@
 const express = require('express');
 var router = express.Router();
+const dotenv = require('dotenv').config();
 const app = express();
 
 const parser = require('./modules/chunkParser');
 const connect = require('./RabbitMQ/publisher');
 const consul = require('./Consul/consul');
 
-
 consul.register();
+
 
 app.get("/queue", function (req, res) {
     res.writeHead(200, { 'Content-Type': 'text plain' });
