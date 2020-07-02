@@ -3,6 +3,6 @@ version: '3'
 services:
   microci-webhook:
     image: esgimicroci/al1-webhook:latest
+    restart: always
     env_file:
       - .env
-    restart: always
