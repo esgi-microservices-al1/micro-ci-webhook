@@ -27,6 +27,8 @@ app.post("/", function (req, res) {
 
 
 app.post("/healthcheck", function(req, res){
+    let a = consul.serviceId;
+
     consul.healthcheck(consul.serviceId);
     res.writeHead(200, { 'Content-Type': 'text plain' });
     res.write('Sucessful test health');

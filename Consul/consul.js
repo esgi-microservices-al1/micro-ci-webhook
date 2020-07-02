@@ -2,7 +2,7 @@ const { port } = require('consul');
 
 // const consul = require('consul')();
 let consul = require('consul')({
-    host: "micro-ci.westus2.cloudapp.azure.com",
+    host: "",
     port: 40600,
 });
 
@@ -49,12 +49,21 @@ var register = function (){consul.agent.service.register(details, err => {
 };
 
 var healthcheck = function(serviceId){
-    consul.agent.check.pass( {id: `service:${serviceId}`}, err => {
-        if(err)
-            console.log(err.message, err.stack);
-        else
-            console.log('consul health');
-    });
+    let idJson ={id: `service:${serviceId}`, token: ''};
+
+    setInterval(() => {
+        consul.agent.check.pass(idJson, (err) => {
+            if (err)
+                console.log(err.message);
+        });
+    }, 5000);
+
+    // consul.agent.check.pass(idJson , err => {
+    //     if(err)
+    //         console.log(err.message, err.stack);
+    //     else
+    //         console.log('consul health');
+    // });
 };
 
 var unregister = function(consul_id){
