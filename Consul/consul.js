@@ -3,7 +3,7 @@ const { port } = require('consul');
 // const consul = require('consul')();
 let consul = require('consul')({
     host: "",
-    port: 40600,
+    port: process.env.PORT,
 });
 
 
@@ -12,9 +12,9 @@ var serviceId = `micro-webhook-${uuid.v4()}`
 
 let details = {
     name: "micro-webhook",
-    address : '',
+    address : process.env.HOST,
     // address : "127.0.0.1",
-    port: 40600,
+    port: process.env.PORT,
     // port: 8300,
     id : serviceId,
     check: {
@@ -24,7 +24,7 @@ let details = {
     tags : [
         'test new consul',
     ],
-    token: ''
+    token: process.env.TOKEN
 };
 
 
