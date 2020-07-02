@@ -3,7 +3,7 @@ FROM node:10
 WORKDIR /usr/src/app
 COPY package*.json ./
 RUN npm install
-COPY . .
+COPY ./node ./
 
 EXPOSE 8082
 CMD [ "node", "server.js" ]
