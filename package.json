@@ -27,6 +27,7 @@
     "flat": "^5.0.0",
     "stompit": "^1.0.0",
     "swagger-jsdoc": "^4.0.0",
-    "swagger-ui-express": "^4.1.4"
+    "swagger-ui-express": "^4.1.4",
+    "uuid": "^8.2.0"
   }
 }
