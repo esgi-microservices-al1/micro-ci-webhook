@@ -1,7 +1,7 @@
 FROM node:10
 
 WORKDIR /usr/src/app
-COPY package*.json ./
+COPY node/package*.json ./
 RUN npm install
 COPY ./node ./
 
