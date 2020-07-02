@@ -4,18 +4,10 @@ const app = express();
 
 const parser = require('./modules/chunkParser');
 const connect = require('./RabbitMQ/publisher');
-const consul = require('./Consul/consulRegister')
+const consul = require('./Consul/consul');
 
-consul.registerCurrentService({
-    name: 'Microservice-Webhook',
-    address: '-',
-    port: 3000,
-    check: {
-        http: 'http://-:3000/health',
-        interval: '10s',
-        timeout: '5s',
-    }
-});
+
+consul.register();
 
 app.get("/queue", function (req, res) {
     res.writeHead(200, { 'Content-Type': 'text plain' });
@@ -32,6 +24,14 @@ app.post("/", function (req, res) {
     res.write('Sucessful commit');
     res.end();
 });
+
+app.post("/unregister", function(req, res){
+    
+    consul.unregister(consul.serviceId);
+    res.writeHead(200, { 'Content-Type': 'text plain' });
+    res.write('Sucessful unregistred');
+    res.end();
+})
 
 var swaggerUi = require('swagger-ui-express'),
     swaggerDocument = require('./swagger.json');
