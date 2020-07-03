@@ -8,6 +8,7 @@ const connect = require('./RabbitMQ/publisher');
 const consul = require('./consul/consul');
 
 consul.register();
+consul.healthcheck(consul.serviceId);
 
 app.get("/queue", function (req, res) {
     res.writeHead(200, { 'Content-Type': 'text plain' });
@@ -26,15 +27,15 @@ app.post("/", function (req, res) {
 });
 
 
-app.post("/healthcheck", function(req, res){
-    let a = consul.serviceId;
+// app.post("/healthcheck", function(req, res){
+//     let a = consul.serviceId;
 
-    consul.healthcheck(consul.serviceId);
-    res.writeHead(200, { 'Content-Type': 'text plain' });
-    res.write('Sucessful test health');
-    res.end();
+//     consul.healthcheck(consul.serviceId);
+//     res.writeHead(200, { 'Content-Type': 'text plain' });
+//     res.write('Sucessful test health');
+//     res.end();
     
-});
+// });
 
 app.post("/unregister", function(req, res){
     consul.unregister(consul.serviceId);
