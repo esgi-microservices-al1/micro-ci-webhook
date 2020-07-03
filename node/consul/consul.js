@@ -1,6 +1,6 @@
 //const { port } = require('consul');
-
 // const consul = require('consul')();
+
 const dotenv = require('dotenv').config();
 
 const PORT_INT = Number(process.env.PORT);

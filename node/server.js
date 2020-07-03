@@ -5,7 +5,7 @@ const app = express();
 
 const parser = require('./modules/chunkParser');
 const connect = require('./RabbitMQ/publisher');
-const consul = require('./Consul/consul');
+const consul = require('./consul/consul');
 
 consul.register();
 

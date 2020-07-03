@@ -5,5 +5,5 @@ services:
     image: esgimicroci/al1-webhook:latest
     env_file:
       - .env
-    # restart: always
+    restart: always
  
