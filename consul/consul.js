@@ -25,7 +25,7 @@ let details = {
         deregister_critical_service_after: '1m'
     },
     tags : [
-        'test new consul',
+        'Webhook',
     ],
     token: process.env.TOKEN
 };
