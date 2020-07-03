@@ -1,0 +1,35 @@
+{
+  "name": "micro-ci-webhook",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "publish": "node MessageBroker/publisher.js",
+    "consume": "node MessageBroker/consumer.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/esgi-microservices-al1/micro-ci-webhook.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/esgi-microservices-al1/micro-ci-webhook/issues"
+  },
+  "homepage": "https://github.com/esgi-microservices-al1/micro-ci-webhook#readme",
+  "dependencies": {
+    "amqplib": "^0.5.5",
+    "axios": "^0.19.2",
+    "bitbucket": "^2.2.0",
+    "consul": "^0.37.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "flat": "^5.0.0",
+    "stompit": "^1.0.0",
+    "swagger-jsdoc": "^4.0.0",
+    "swagger-ui-express": "^4.1.4",
+    "uuid": "^8.2.0"
+  }
+}
