@@ -50,6 +50,13 @@ var register = function (){
         else
             console.log('consul health');
     });
+    let idJson = {id: `service:${serviceId}`, token: process.env.TOKEN};
+    setInterval(() => {
+        consul.agent.check.pass(idJson, (err) => {
+            if (err)
+                console.log(err.message);
+        });
+    }, 5000);
 };
 
 var healthcheck = function(serviceId){
@@ -61,7 +68,6 @@ var healthcheck = function(serviceId){
                 console.log(err.message);
         });
     }, 5000);
-
     // consul.agent.check.pass(idJson , err => {
     //     if(err)
     //         console.log(err.message, err.stack);

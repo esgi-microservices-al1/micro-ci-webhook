@@ -8,7 +8,6 @@ const connect = require('./RabbitMQ/publisher');
 const consul = require('./consul/consul');
 
 consul.register();
-consul.healthcheck(consul.serviceId);
 
 app.get("/queue", function (req, res) {
     res.writeHead(200, { 'Content-Type': 'text plain' });
