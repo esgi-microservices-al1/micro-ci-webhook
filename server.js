@@ -34,7 +34,7 @@ app.post("/healthcheck", function(req, res){
     res.write('Sucessful test health');
     res.end();
     
-})
+});
 
 app.post("/unregister", function(req, res){
     consul.unregister(consul.serviceId);
@@ -42,7 +42,7 @@ app.post("/unregister", function(req, res){
     res.write('Sucessful unregistred');
     res.end();
     
-})
+});
 
 
 var swaggerUi = require('swagger-ui-express'),
