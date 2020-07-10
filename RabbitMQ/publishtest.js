@@ -1,11 +1,11 @@
 const dotenv = require('dotenv').config();
 
-const amqp = require("amqplib").credentials.plain(process.env.BROKER_LOGIN, process.env.BROKER_PASSWORD);
+const amqp = require("amqplib");
 
 console.log(`amqp://${process.env.RABBITMQ_HOST}:${process.env.RABBITMQ_PORT}`);
 console.log(process.env.RABBITMQ_HOST);
 
-function test () {
+var test = async function () {
     try {
         jsonSample = 
         [   
@@ -24,17 +24,19 @@ function test () {
         //creates a connection to RabbitMQ server on docker which is running on port 5672
         //and creates a channel to communicate
         // const connection = await amqp.connect("amqp://localhost:5672");
-        const connection = await amqp.connect(`amqp://${process.env.RABBITMQ_HOST}:${process.env.RABBITMQ_PORT}`);
+        const opt = {credentials: require('amqplib').credentials.plain(process.env.BROKER_LOGIN, process.env.BROKER_PASSWORD)};
+        const connection = await amqp.connect(`amqp://${process.env.RABBITMQ_HOST}:${process.env.RABBITMQ_PORT}`, opt, (err, conn) => {});
+                        //amqp.connect(`amqp://${process.env.RABBITMQ_HOST}:${process.env.RABBITMQ_PORT}`);
         const channel = await connection.createChannel();
-        
+
         //asserts a message queue exists and creates it if it doesn't 
         const result = await channel.assertQueue(process.env.BROKER_QUEUE); 
 
         //sends the message to the queue that we created called "Jobs"
-        
+
         //Buffer.from(JSON.stringify(jsonSample))
         channel.sendToQueue(process.env.BROKER_QUEUE, Buffer.from(JSON.stringify(jsonSample)));
-        
+
         console.log(`job sent succefully`);
     } catch (ex) {
         console.error(ex);
