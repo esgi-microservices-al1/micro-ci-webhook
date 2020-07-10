@@ -53,4 +53,4 @@ jobs:
        uses: azure/CLI@v1
        with:
          inlineScript: |
-           az vm run-command invoke -g ${{ secrets.AZURE_RESOURCE_GRP }} -n ${{ secrets.AZURE_VM }} --command-id RunShellScript --scripts "cd /home/micro-ci-al1/micro-ci-webhook && wget -q https://raw.githubusercontent.com/esgi-microservices-al1/micro-ci-webhook/master/.github/azure/docker-compose.yml -O docker-compose.yml && docker-compose stop && docker-compose rm && docker-compose up -d"
+           az vm run-command invoke -g ${{ secrets.AZURE_RESOURCE_GRP }} -n ${{ secrets.AZURE_VM }} --command-id RunShellScript --scripts "cd /home/micro-ci-al1/micro-ci-webhook && wget -q https://raw.githubusercontent.com/esgi-microservices-al1/micro-ci-webhook/master/.github/azure/docker-compose.yml -O docker-compose.yml && docker-compose stop && docker-compose rm  && docker-compose pull && docker-compose up -d"
