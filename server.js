@@ -20,7 +20,8 @@ app.post("/", function (req, res) {
     try {
         req.on('data', function (chunk) {
             const res = parser.cleanJSONObject(chunk);
-            res.then(result => connect(result));
+            console.log(res)
+            // res.then(result => connect(result));
         });
         res.writeHead(200, { 'Content-Type': 'text plain' });
         res.write('Sucessful commit');
