@@ -25,7 +25,10 @@ let details = {
         deregister_critical_service_after: '1m'
     },
     tags : [
-        'Webhook',
+        // 'Webhook',
+        'traefik.enable=true',
+        'traefik.frontend.entryPoints=http',
+        'traefik.frontend.rule=PathPrefixStrip:/al1.webhook-ci/'
     ],
     token: process.env.TOKEN
 };
