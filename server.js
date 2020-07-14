@@ -50,4 +50,4 @@ var swaggerUi = require('swagger-ui-express'),
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use('/api/v1', router);
-app.listen(8082, () => console.log("Service listening on port 8082")); 
+app.listen(4666, () => console.log("Service listening on port 4666")); 
