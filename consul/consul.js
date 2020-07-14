@@ -3,7 +3,7 @@
 
 const dotenv = require('dotenv').config();
 
-const PORT_INT = Number(process.env.API_PORT);
+const PORT_INT = Number(process.env.PORT);
 
 let consul = require('consul')({
     host: process.env.HOST,
@@ -17,7 +17,7 @@ let details = {
     name: "micro-webhook",
     address : process.env.API_HOST,
     // address : "127.0.0.1",
-    port: PORT_INT,
+    port: 4666,
     // port: 8300,
     id : serviceId,
     check: {
@@ -99,7 +99,6 @@ var unregister = function(consul_id){
     //     });
     // });
 }
-
 
 module.exports.register = register;
 module.exports.serviceId = serviceId;
