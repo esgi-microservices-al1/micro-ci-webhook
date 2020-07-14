@@ -17,14 +17,21 @@ app.get("/queue", function (req, res) {
 });
 
 app.post("/", function (req, res) {
-    req.on('data', function (chunk) {
-        const res = parser.cleanJSONObject(chunk);
-        res.then(result => connect(result));
-    });
-    res.writeHead(200, { 'Content-Type': 'text plain' });
-    res.write('Sucessful commit');
-    res.end();
+    try {
+        req.on('data', function (chunk) {
+            const res = parser.cleanJSONObject(chunk);
+            console.log(res)
+            res.then(result => connect.connect(result));
+        });
+        res.writeHead(200, { 'Content-Type': 'text plain' });
+        res.write('Sucessful commit');
+        res.end();
+    } catch (err) {
+        console.log(err);
+    }
+    
 });
+
 
 app.get('/test', (req, res) => {
     res.send({ hello: 'world' });
