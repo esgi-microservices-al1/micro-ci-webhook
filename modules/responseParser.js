@@ -1,18 +1,15 @@
 const constants = require('../constants/constants');
 const axios = require('axios');
-
 function removeProperties(jsonObj, arg) {
     arg.forEach(element => {
         delete jsonObj[element];
     });
 }
-
 function removeDoubleElement(array) {
     return array.filter((el, index) =>
         array.indexOf(el) === index
     );
 }
-
 function bitBucketParser(response, arg) {
     return removeDoubleElement(response.split('\n')
         .filter((x, index) => x.includes('diff') && response.split('\n')[index + 1].includes(arg))
@@ -22,11 +19,11 @@ function bitBucketParser(response, arg) {
         )
     );
 }
-
 const responseParserGitHub = function (object) {
     const res = new Object();
     res['repository_id'] = object['repository']['id'];
     res['repository_name'] = object['repository']['name'];
+    res['repository_url'] = object['repository']['url'];
     object['commits'].forEach(element => {
         removeProperties(element, constants.githubClean);
         removeProperties(element['author'], constants.githubCleanCommiter);
@@ -34,26 +31,25 @@ const responseParserGitHub = function (object) {
     res['commits'] = object['commits'];
     return res;
 }
-
 const responseParserGitLab = function (object) {
     const res = new Object();
     res['repository_id'] = object['project']['id'];
     res['repository_name'] = object['repository']['name'];
+    res['repository_url'] = object['repository']['url'];
     object['commits'].forEach(element => {
         removeProperties(element, constants.gitlabClean);
     });
     res['commits'] = object['commits'];
     return res;
 }
-
 async function getData(link) {
     return await axios.get(link);
 }
-
 const responseParserBitBucket = async function (object) {
     const res = new Object();
     res['repository_id'] = object['repository']['project']['uuid'];
     res['repository_name'] = object['repository']['project']['name'];
+    res['repository_url'] = object['repository']['project']['url'];
     object['push']['changes'].forEach(element => {
         element['commits'].forEach(commit => {
             removeProperties(commit, constants.bitbucketClean);
@@ -84,7 +80,6 @@ const responseParserBitBucket = async function (object) {
     })).then(value => value);
     return res;
 }
-
 module.exports.responseParserGitHub = responseParserGitHub;
 module.exports.responseParserGitLab = responseParserGitLab;
 module.exports.responseParserBitBucket = responseParserBitBucket;
