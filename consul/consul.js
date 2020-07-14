@@ -28,7 +28,7 @@ let details = {
         // 'Webhook',
         'traefik.enable=true',
         'traefik.frontend.entryPoints=http',
-        'traefik.frontend.rule=PathPrefixStrip:/webhook/'
+        'traefik.frontend.rule=PathPrefixStrip:/al1.webhook-ci/'
     ],
     token: process.env.TOKEN
 };
