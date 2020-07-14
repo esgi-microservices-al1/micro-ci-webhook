@@ -6,4 +6,6 @@ services:
     env_file:
       - .env
     restart: always
+    ports:
+      - 4666:4666
  
