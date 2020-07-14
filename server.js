@@ -19,7 +19,7 @@ app.get("/queue", function (req, res) {
 app.post("/", function (req, res) {
     req.on('data', function (chunk) {
         const res = parser.cleanJSONObject(chunk);
-        res.then(result => await connect(result));
+        res.then(result => connect(result));
     });
     res.writeHead(200, { 'Content-Type': 'text plain' });
     res.write('Sucessful commit');
