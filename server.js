@@ -25,17 +25,6 @@ app.post("/", function (req, res) {
     res.end();
 });
 
-
-// app.post("/healthcheck", function(req, res){
-//     let a = consul.serviceId;
-
-//     consul.healthcheck(consul.serviceId);
-//     res.writeHead(200, { 'Content-Type': 'text plain' });
-//     res.write('Sucessful test health');
-//     res.end();
-    
-// });
-
 app.post("/unregister", function(req, res){
     consul.unregister(consul.serviceId);
     res.writeHead(200, { 'Content-Type': 'text plain' });
@@ -43,7 +32,6 @@ app.post("/unregister", function(req, res){
     res.end();
     
 });
-
 
 var swaggerUi = require('swagger-ui-express'),
     swaggerDocument = require('./swagger.json');

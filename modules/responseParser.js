@@ -26,7 +26,7 @@ function bitBucketParser(response, arg) {
 const responseParserGitHub = function (object) {
     const res = new Object();
     res['repository_id'] = object['repository']['id'];
-    res['repository_name'] = object['repository']['name'];
+    res['repository_url'] = object['repository']['url'];
     object['commits'].forEach(element => {
         removeProperties(element, constants.githubClean);
         removeProperties(element['author'], constants.githubCleanCommiter);
@@ -38,7 +38,7 @@ const responseParserGitHub = function (object) {
 const responseParserGitLab = function (object) {
     const res = new Object();
     res['repository_id'] = object['project']['id'];
-    res['repository_name'] = object['repository']['name'];
+    res['repository_url'] = object['repository']['url'];
     object['commits'].forEach(element => {
         removeProperties(element, constants.gitlabClean);
     });
@@ -53,7 +53,7 @@ async function getData(link) {
 const responseParserBitBucket = async function (object) {
     const res = new Object();
     res['repository_id'] = object['repository']['project']['uuid'];
-    res['repository_name'] = object['repository']['project']['name'];
+    res['repository_url'] = object['repository']['project']['url'];
     object['push']['changes'].forEach(element => {
         element['commits'].forEach(commit => {
             removeProperties(commit, constants.bitbucketClean);
