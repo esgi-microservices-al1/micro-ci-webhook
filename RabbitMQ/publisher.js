@@ -1,5 +1,5 @@
 const dotenv = require('dotenv').config();
-const dJSON = require('dirty-json');
+//const dJSON = require('dirty-json');
 const amqp = require("amqplib");
 
 console.log(`amqp://${process.env.RABBITMQ_HOST}:${process.env.RABBITMQ_PORT}`);
