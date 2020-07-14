@@ -26,7 +26,7 @@ app.post("/", function (req, res) {
         res.write('Sucessful commit');
         res.end();
     } catch (err) {
-        next(err);
+        console.log(err);
     }
     
 });
