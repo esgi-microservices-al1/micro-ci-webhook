@@ -9,6 +9,7 @@ const consul = require('./consul/consul');
 
 consul.register();
 
+
 app.get("/queue", function (req, res) {
     res.writeHead(200, { 'Content-Type': 'text plain' });
     res.write('Work in progress');
@@ -25,6 +26,9 @@ app.post("/", function (req, res) {
     res.end();
 });
 
+app.get('/test', (req, res) => {
+    res.send({ hello: 'world' });
+});
 
 // app.post("/healthcheck", function(req, res){
 //     let a = consul.serviceId;
