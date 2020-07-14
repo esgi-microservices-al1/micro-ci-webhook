@@ -12,7 +12,11 @@ var connect = async function (arg) {
         // const connection = await amqp.connect("amqp://localhost:5672");
 
         const opt = {credentials: require('amqplib').credentials.plain(process.env.BROKER_LOGIN, process.env.BROKER_PASSWORD)};
-        const connection = await amqp.connect(`amqp://${process.env.RABBITMQ_HOST}:${process.env.RABBITMQ_PORT}`, opt, (err, conn) => {});
+        const connection = await amqp.connect(`amqp://${process.env.RABBITMQ_HOST}:${process.env.RABBITMQ_PORT}`, opt, (err, conn) => {
+            console.log(err)
+            console.log(conn)
+        });
+
         const channel = await connection.createChannel();       
         
         //asserts a message queue exists and creates it if it doesn't 
