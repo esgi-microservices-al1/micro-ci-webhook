@@ -21,7 +21,7 @@
   "homepage": "https://github.com/esgi-microservices-al1/micro-ci-webhook#readme",
   "dependencies": {
     "amqplib": "^0.5.5",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "bitbucket": "^2.2.0",
     "consul": "^0.37.0",
     "dotenv": "^8.2.0",
